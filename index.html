@@ -1,9 +1,37 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>Fucking Spinner</title>
+        <script src="spinner.js"></script>
+        <link rel="stylesheet" type="text/css" href="spinner.css" />
+        <link rel="shortcut icon" type="image/png" href="favicon.png" />
     </head>
     <body>
-        <div id="application"
+        <main>
+            <h1 class="screen-reader-text">Fucking Spinner</h1>
+            <div class="spinner">
+                <div class="wheel" id="wheel" style="--total: 10;">
+                    <span class="wheel-text" style="--item: 1; background-color: var(--color-1);">it</span>
+                    <span class="wheel-text" style="--item: 2; background-color: var(--color-2);">him</span>
+                    <span class="wheel-text" style="--item: 3; background-color: var(--color-3);">that</span>
+                    <span class="wheel-text" style="--item: 4; background-color: var(--color-4);">me</span>
+                    <span class="wheel-text" style="--item: 5; background-color: var(--color-5);">yeah</span>
+                    <span class="wheel-text" style="--item: 6; background-color: var(--color-6);">off</span>
+                    <span class="wheel-text" style="--item: 7; background-color: var(--color-7);">her</span>
+                    <span class="wheel-text" style="--item: 8; background-color: var(--color-8);">this</span>
+                    <span class="wheel-text" style="--item: 9; background-color: var(--color-9);">you</span>
+                    <span class="wheel-text" style="--item: 10; background-color: var(--color-10);">no</span>
+                </div>
+                <div class="pointer" id="spinner_pointer" data-rotation="0">
+                    <span class="pointer-text">Fuck</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="button_spin">Spin</button>
+            </div>
+            <div class="result-box" id="result_box">
+                <div class="result-text" id="result"></div>
+            </div>
+        </main>
     </body>
 </html>

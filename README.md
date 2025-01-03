@@ -1,6 +1,6 @@
 # SPINNER
 
-Spin to randomize your response, or set it manually to provide that perfect response.
+Spin to learn the secrets of the universe.
 
 Inspiration
 - https://www.etsy.com/listing/1678618732/fuck-spinning-enamel-pin-brooch-roulette

@@ -1,0 +1,222 @@
+@font-face {
+    font-family: Lato;
+    src: url('lato.woff2') format('woff2');
+}
+
+/**
+ * Josh Comeau's Modern CSS Reset
+ * https://www.joshwcomeau.com/css/custom-css-reset/
+ */
+/* 1. Use a more-intuitive box-sizing model */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+/* 2. Remove default margin */
+* {
+    margin: 0;
+}
+body {
+    /* 3. Add accessible line-height */
+    line-height: 1.5;
+    /* 4. Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+}
+/* 5. Improve media defaults */
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+/* 6. Inherit fonts for form controls */
+input, button, textarea, select {
+    font: inherit;
+}
+/* 7. Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+/* 8. Improve line wrapping */
+p {
+    text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+
+/**
+ * Text made for screen readers.
+ */
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+.screen-reader-text:focus {
+    background-color: #eee;
+    clip: auto !important;
+    clip-path: none;
+    color: #444;
+    display: block;
+    font-size: 1em;
+    height: auto;
+    left: 5px;
+    line-height: normal;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: 5px;
+    width: auto;
+    z-index: 100000;
+}
+
+/**
+ * Spinner
+ */
+:root {
+    --color-1: #001219;
+    --color-2: #005f73;
+    --color-3: #0a9396;
+    --color-4: #264653;
+    --color-5: #606C38;
+    --color-6: #283618;
+    --color-7: #ca6702;
+    --color-8: #bb3e03;
+    --color-9: #ae2012;
+    --color-10: #9b2226;
+}
+html {
+    height: 100%;
+    font-size: 16px;
+}
+body {
+    background-color: #111;
+    color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-family: Lato, Arial, Helvetica, sans-serif;
+}
+.spinner {
+    width: 300px;
+    height: 300px;
+    position: relative;
+}
+.wheel {
+    background-color: #555;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.wheel-text {
+    --slice: calc( 360deg / var(--total) );
+    text-transform: uppercase;
+    height: 150px;
+    width: 100px;
+    position: absolute;
+    transform-origin: center bottom;
+    text-align: center;
+    top: -2px;
+    right: 0;
+    left: 0;
+    margin-inline: auto;
+    transform: rotate( calc( var(--item) * var(--slice) ) );
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
+.pointer {
+    position: absolute;
+    transform: rotate(0deg);
+    transform-origin: center center;
+    width: 200px;
+    height: 70px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    /*transition: transform .1s ease;*/
+
+    &::after {
+        width: 0;
+        height: 0;
+        content: '';
+        display: block;
+        border-style: solid;
+        border-width: 35px 0 35px 200px;
+        border-color: transparent transparent transparent #000;
+        margin-left: 10px;
+        border-radius: 10px;
+    }
+}
+.pointer-text {
+    text-transform: uppercase;
+    position: absolute;
+    font-size: 1.2rem;
+    top: calc( 50% - .75rem );
+    left: 30px;
+    font-weight: bold;
+}
+.controls {
+    margin-top: 20px;
+    text-align: center;
+}
+button {
+    border-radius: 0;
+    border: 0 none;
+    background: #B0DAF1;
+    color: #000;
+    cursor: pointer;
+    font-size: 1.2rem;
+    min-width: 120px;
+    transition: background .2s ease-in-out;
+
+    &:hover,
+    &:focus {
+        background: #8d91c7;
+    }
+    
+}
+.result-box {
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+.result-text {
+    background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow_animation 6s ease-in-out infinite;
+    background-size: 400% 100%;
+    font-size: clamp(2.5rem, 14.84vi + -1.21rem, 10.66rem);
+}
+.show-results {
+    opacity: 1;
+}
+
+@keyframes rainbow_animation {
+    0%, 100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
+}
