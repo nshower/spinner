@@ -7,24 +7,36 @@ addEventListener( 'DOMContentLoaded', (e) => {
     const wheel      = document.getElementById('wheel');
     const result     = document.getElementById('result');
     const resultBox  = document.getElementById('result_box');
+    const surprise   = document.getElementById('surprise_box');
     let timer        = null;
+    let totalSpins   = 0;
 
     spinButton.addEventListener( 'click', handleSpin );
+    surprise.addEventListener( 'click', handleSurprise );
+
+    function handleSurprise(e) {
+        surprise.classList.remove( 'show-surprise' );
+        spinButton.removeAttribute( 'disabled' );
+    }
 
     function handleSpin(e) {
         const duration      = Math.random() * 5000;
         const spinUp        = Math.random() * 2000;
-        const spinDown      = Math.random() * 3000;
+        const spinDown      = 1000 + Math.random() * 2000;
         const totalDuration = spinUp + duration + spinDown;
+        const maxSpeed      = 59;
+
+        const surpriseMe    = Math.round(Math.random() * 100);
         let position        = pointer.dataset.rotation;
         let time            = 0;
         let timeDown        = Math.round(spinDown);
-        const maxSpeed      = 59;
         let currentSpeed    = 0;
+
+        totalSpins += 1;
 
         clearInterval(timer);
         timer = setInterval( spin, 25 );
-
+        spinButton.setAttribute( 'disabled', 'disabled' );
         resultBox.classList.remove('show-results');
 
         function spin() {
@@ -41,7 +53,14 @@ addEventListener( 'DOMContentLoaded', (e) => {
                     adjustedPosition = adjustedPosition - 360;
                 }
 
+                if ( 100 === surpriseMe || 100 === totalSpins ) {
+                    surprise.classList.add('show-surprise');
+                    totalSpins = 0;
+                    return;
+                }
+
                 resultBox.classList.add('show-results');
+                spinButton.removeAttribute( 'disabled' );
                 result.textContent = "Fuck " + wheel.children[ Math.ceil(adjustedPosition * wheel.childElementCount / 360) - 1 ].textContent + '!';
             }
 

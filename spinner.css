@@ -101,6 +101,7 @@ body {
     align-items: center;
     height: 100%;
     font-family: Lato, Arial, Helvetica, sans-serif;
+    overflow: hidden;
 }
 .spinner {
     width: 300px;
@@ -141,7 +142,6 @@ body {
     top: 0;
     bottom: 0;
     margin: auto;
-    /*transition: transform .1s ease;*/
 
     &::after {
         width: 0;
@@ -177,11 +177,16 @@ button {
     cursor: pointer;
     font-size: 1.2rem;
     min-width: 120px;
-    transition: background .2s ease-in-out;
+    transition: background .2s ease-in-out, opacity .2s ease-in-out;
 
     &:hover,
     &:focus {
         background: #8d91c7;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
     }
     
 }
@@ -205,7 +210,7 @@ button {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: rainbow_animation 6s ease-in-out infinite;
+    animation: rainbow_text 6s ease-in-out infinite;
     background-size: 400% 100%;
     font-size: clamp(2.5rem, 14.84vi + -1.21rem, 10.66rem);
 }
@@ -213,12 +218,105 @@ button {
     opacity: 1;
 }
 
-@keyframes rainbow_animation {
+.surprise-box {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background: radial-gradient(circle, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+    z-index: 20;
+    animation: rainbow_background_size 3s ease-in-out infinite;
+    transform: scale(1);
+    background-position: center center;
+}
+.surprise-text {
+    font-size: clamp(2.5rem, 14.84vi + -1.21rem, 8.66rem);
+    font-weight: bold;
+    color: #fff;
+    transform: rotate(0deg) scale(1);
+    animation: text_spin 6s linear infinite, seizure .15s linear infinite;
+}
+.show-surprise {
+    opacity: 1;
+    pointer-events: initial;
+}
+
+@keyframes rainbow_text {
     0%, 100% {
         background-position: 0 0;
     }
-
     50% {
         background-position: 100% 0;
+    }
+}
+
+@keyframes seizure {
+    0%, 100% {
+        color: #fff;
+    }
+    50% {
+        color: #000;
+    }
+}
+
+@keyframes rainbow_background_size {
+    0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% {
+        background-size: 100% 100%;
+    }
+    5% {
+        background-size: 105% 105%;
+    }
+    15% {
+        background-size: 125% 125%;
+    }
+    25% {
+        background-size: 185% 185%;
+    }
+    35% {
+        background-size: 135% 135%;
+    }
+    45% {
+        background-size: 115% 115%;
+    }
+    55% {
+        background-size: 155% 155%;
+    }
+    65% {
+        background-size: 175% 175%;
+    }
+    75% {
+        background-size: 145% 145%;
+    }
+    85% {
+        background-size: 115% 115%;
+    }
+    95% {
+        background-size: 165% 165%;
+    }
+}
+
+@keyframes text_spin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    25% {
+        transform: rotate(90deg) scale(1.2);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    75% {
+        transform: rotate(270deg) scale(0.9);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
     }
 }
