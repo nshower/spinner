@@ -1,6 +1,6 @@
 # SPINNER
 
-Spin to learn the secrets of the universe.
+Spin to learn the secrets of the universe. There could be a surprise!
 
 Inspiration
-- https://www.etsy.com/listing/1678618732/fuck-spinning-enamel-pin-brooch-roulette
+- https://www.amazon.com/gp/product/B09GV8Y9P6/
