@@ -20,11 +20,11 @@ addEventListener( 'DOMContentLoaded', (e) => {
     }
 
     function handleSpin(e) {
-        const duration      = 2000 + Math.random() * 3000;
-        const spinUp        = 500  + Math.random() * 1500;
-        const spinDown      = 1000 + Math.random() * 2000;
+        const duration      = 600 + Math.random() * 3200;
+        const spinUp        = 300 + Math.random() * 1400;
+        const spinDown      = 400 + Math.random() * 1900;
         const totalDuration = spinUp + duration + spinDown;
-        const maxSpeed      = 59;
+        const maxSpeed      = 45;
         const chance        = 50;
         const surpriseMe    = Math.round( Math.random() * chance );
 
