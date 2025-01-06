@@ -20,13 +20,14 @@ addEventListener( 'DOMContentLoaded', (e) => {
     }
 
     function handleSpin(e) {
-        const duration      = Math.random() * 5000;
-        const spinUp        = Math.random() * 2000;
+        const duration      = 2000 + Math.random() * 3000;
+        const spinUp        = 500  + Math.random() * 1500;
         const spinDown      = 1000 + Math.random() * 2000;
         const totalDuration = spinUp + duration + spinDown;
         const maxSpeed      = 59;
+        const chance        = 50;
+        const surpriseMe    = Math.round( Math.random() * chance );
 
-        const surpriseMe    = Math.round(Math.random() * 100);
         let position        = pointer.dataset.rotation;
         let time            = 0;
         let timeDown        = Math.round(spinDown);
@@ -53,7 +54,7 @@ addEventListener( 'DOMContentLoaded', (e) => {
                     adjustedPosition = adjustedPosition - 360;
                 }
 
-                if ( 100 === surpriseMe || 100 === totalSpins ) {
+                if ( chance === surpriseMe || chance === totalSpins ) {
                     surprise.classList.add('show-surprise');
                     totalSpins = 0;
                     return;
