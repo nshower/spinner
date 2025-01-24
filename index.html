@@ -8,7 +8,7 @@
         <link rel="shortcut icon" type="image/png" href="favicon.png" />
     </head>
     <body>
-        <main>
+        <main id="game">
             <h1 class="screen-reader-text">Fucking Spinner</h1>
             <div class="spinner">
                 <div class="wheel" id="wheel" style="--total: 10;">
@@ -28,10 +28,15 @@
                 </div>
             </div>
             <div class="controls">
-                <button id="button_spin">Spin</button>
+                <button id="button_spin">Fuck around</button>
+                <button id="button_reset">Again?</button>
+            </div>
+            <div class="score-box" id="score_box">
+                <span class="score-text" id="score"></span>
             </div>
             <div class="result-box" id="result_box">
                 <div class="result-text" id="result"></div>
+                <div class="cost-text" id="cost_text"></div>
             </div>
             <div class="surprise-box" id="surprise_box">
                 <div class="surprise-text">🖕 FUCK 🖕 EVERYTHING!</div>

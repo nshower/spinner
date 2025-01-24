@@ -188,7 +188,30 @@ button {
         opacity: 0.5;
         pointer-events: none;
     }
-    
+}
+#button_reset {
+    display: none;
+}
+
+#game {
+    &[data-status="over"] {
+        #button_spin {
+            display: none;
+        }
+        #button_reset {
+            display: inline-block;
+        }
+    }
+}
+
+.score-box {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #333;
+    padding: 5px;
+    text-align: center;
 }
 .result-box {
     background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
@@ -199,11 +222,12 @@ button {
     right: 0;
     bottom: 0;
     text-align: center;
-    pointer-events: none;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
+    cursor: default;
 }
 .result-text {
     background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
@@ -213,6 +237,10 @@ button {
     animation: rainbow_text 6s ease-in-out infinite;
     background-size: 400% 100%;
     font-size: clamp(2.5rem, 14.84vi + -1.21rem, 10.66rem);
+}
+.cost-text {
+    font-style: italic;
+    margin-top: -20px;
 }
 .show-results {
     opacity: 1;

@@ -2,21 +2,95 @@
  * Spin the wheel, take a chance.
  */
 addEventListener( 'DOMContentLoaded', (e) => {
-    const spinButton = document.getElementById('button_spin');
-    const pointer    = document.getElementById('spinner_pointer');
-    const wheel      = document.getElementById('wheel');
-    const result     = document.getElementById('result');
-    const resultBox  = document.getElementById('result_box');
-    const surprise   = document.getElementById('surprise_box');
-    let timer        = null;
-    let totalSpins   = 0;
+    const game        = document.getElementById('game');
+    const spinButton  = document.getElementById('button_spin');
+    const resetButton = document.getElementById('button_reset');
+    const pointer     = document.getElementById('spinner_pointer');
+    const wheel       = document.getElementById('wheel');
+    const result      = document.getElementById('result');
+    const resultBox   = document.getElementById('result_box');
+    const costText    = document.getElementById('cost_text');
+    const surprise    = document.getElementById('surprise_box');
+    const score       = document.getElementById('score');
+    const localFucks  = 'fucks';
+    const maxFucks    = 50;
+    let timer         = null;
+    let ftg           = window.localStorage.getItem( localFucks );
 
+    if ( ! ftg ) {
+        window.localStorage.setItem( localFucks, maxFucks);
+    }
+    if ( ftg < 0 ) {
+        console.log( 'Fuck you, dude.' );
+        window.localStorage.setItem( localFucks, maxFucks );
+    }
+    ftg = window.localStorage.getItem( localFucks );
+    setScore( ftg );
+
+    // events!
     spinButton.addEventListener( 'click', handleSpin );
-    surprise.addEventListener( 'click', handleSurprise );
+    surprise.addEventListener( 'click', clearSurprise );
+    resultBox.addEventListener( 'click', handleDismiss );
+    resetButton.addEventListener( 'click', handleReset );
 
-    function handleSurprise(e) {
+    game.dataset.status = ftg > 0 ? 'playing' : 'over';
+
+    /**
+     * Dismiss the standard game result.
+     * @param {event} e 
+     */
+    function handleDismiss(e) {
+        resultBox.classList.remove('show-results');
+    }
+
+    /**
+     * Clear the surprise.
+     *
+     * @param {event} e 
+     */
+    function clearSurprise(e) {
         surprise.classList.remove( 'show-surprise' );
         spinButton.removeAttribute( 'disabled' );
+    }
+    /**
+     * show the
+     */
+    function showSurprise() {
+        surprise.classList.add('show-surprise');
+        game.dataset.status = "over";
+        resetButton.removeAttribute('disabled');
+    }
+
+    function showResult( targetSlice, cost ) {
+        resultBox.classList.add('show-results');
+        spinButton.removeAttribute( 'disabled' );
+        result.textContent = "Fuck " + targetSlice.textContent + '!';
+        costText.textContent = "(You gave " + cost + " fuck" + ( cost > 1 ? "s" : "" ) + ")";
+    }
+
+    function handleReset(e) {
+        clearSurprise();
+        ftg = maxFucks;
+        setScore( ftg );
+        window.localStorage.setItem( localFucks, maxFucks);
+        pointer.style.transform = 'rotate(0deg)';
+        pointer.dataset.rotation = 0;
+        game.dataset.status = "playing";
+
+    }
+
+    function setScore( newScore ) {
+        let scoreText = newScore + ' fucks left to give.';
+
+        if ( parseInt( newScore ) === 1 ) {
+            scoreText = 'Down to your last fuck.';
+        }
+
+        if ( parseInt( newScore ) <= 0 ) {
+            ftg = 0;
+            scoreText = 'All out of fucks to give.';
+        }
+        score.textContent = scoreText;
     }
 
     function handleSpin(e) {
@@ -25,22 +99,25 @@ addEventListener( 'DOMContentLoaded', (e) => {
         const spinDown      = 400 + Math.random() * 1900;
         const totalDuration = spinUp + duration + spinDown;
         const maxSpeed      = 45;
-        const chance        = 50;
-        const surpriseMe    = Math.round( Math.random() * chance );
 
         let position        = pointer.dataset.rotation;
         let time            = 0;
         let timeDown        = Math.round(spinDown);
         let currentSpeed    = 0;
 
-        totalSpins += 1;
-
         clearInterval(timer);
         timer = setInterval( spin, 25 );
         spinButton.setAttribute( 'disabled', 'disabled' );
         resultBox.classList.remove('show-results');
 
+        /**
+         * Spinning wheel, spinning round.
+         * 
+         * @returns void;
+         */
         function spin() {
+
+            // spin done.
             if ( time >= totalDuration ) {
                 position = parseInt(position) % 360;
                 pointer.style.transform = 'rotate(' + position + 'deg)';
@@ -53,20 +130,26 @@ addEventListener( 'DOMContentLoaded', (e) => {
                 if ( ( position + adjustment ) > 360 ) {
                     adjustedPosition = adjustedPosition - 360;
                 }
+                let targetSlice = wheel.children[ Math.ceil(adjustedPosition * wheel.childElementCount / 360) - 1 ];
 
-                if ( chance === surpriseMe || chance === totalSpins ) {
-                    surprise.classList.add('show-surprise');
-                    totalSpins = 0;
+                let cost = parseInt( Math.floor( 1 + ( Math.random() * 5 ) ) );
+                ftg -= cost;
+                window.localStorage.setItem( localFucks, ftg );
+                setScore( ftg );
+
+                // if we're out of fucks, that's all folks.
+                if ( 0 === ftg ) {
+                    showSurprise();
                     return;
                 }
 
-                resultBox.classList.add('show-results');
-                spinButton.removeAttribute( 'disabled' );
-                result.textContent = "Fuck " + wheel.children[ Math.ceil(adjustedPosition * wheel.childElementCount / 360) - 1 ].textContent + '!';
+                showResult( targetSlice, cost );
             }
 
+            // advance time.
             time += 25;
 
+            // spin up, spin, spin down.
             if ( time < spinUp ) {
                 // acceleration up to max speed
                 currentSpeed = Math.round( maxSpeed * (time / spinUp) );
