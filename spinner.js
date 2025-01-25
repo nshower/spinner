@@ -33,6 +33,7 @@ addEventListener( 'DOMContentLoaded', (e) => {
     resultBox.addEventListener( 'click', handleDismiss );
     resetButton.addEventListener( 'click', handleReset );
 
+    // set game status.
     game.dataset.status = ftg > 0 ? 'playing' : 'over';
 
     /**
@@ -52,8 +53,9 @@ addEventListener( 'DOMContentLoaded', (e) => {
         surprise.classList.remove( 'show-surprise' );
         spinButton.removeAttribute( 'disabled' );
     }
+
     /**
-     * show the
+     * Show the surprise.
      */
     function showSurprise() {
         surprise.classList.add('show-surprise');
@@ -61,6 +63,12 @@ addEventListener( 'DOMContentLoaded', (e) => {
         resetButton.removeAttribute('disabled');
     }
 
+    /**
+     * Display results
+     *
+     * @param {array} targetSlice Selected portion of the spinner
+     * @param {int} cost 1-5 fucks
+     */
     function showResult( targetSlice, cost ) {
         resultBox.classList.add('show-results');
         spinButton.removeAttribute( 'disabled' );
@@ -68,6 +76,11 @@ addEventListener( 'DOMContentLoaded', (e) => {
         costText.textContent = "(You gave " + cost + " fuck" + ( cost > 1 ? "s" : "" ) + ")";
     }
 
+    /**
+     * Reset game.
+     *
+     * @param {event} e 
+     */
     function handleReset(e) {
         clearSurprise();
         ftg = maxFucks;
@@ -79,6 +92,11 @@ addEventListener( 'DOMContentLoaded', (e) => {
 
     }
 
+    /**
+     * Set score.
+     *
+     * @param {int} newScore 
+     */
     function setScore( newScore ) {
         let scoreText = newScore + ' fucks left to give.';
 
@@ -93,6 +111,11 @@ addEventListener( 'DOMContentLoaded', (e) => {
         score.textContent = scoreText;
     }
 
+    /**
+     * Spin.
+     *
+     * @param {event} e 
+     */
     function handleSpin(e) {
         const duration      = 600 + Math.random() * 3200;
         const spinUp        = 300 + Math.random() * 1400;
@@ -105,6 +128,16 @@ addEventListener( 'DOMContentLoaded', (e) => {
         let timeDown        = Math.round(spinDown);
         let currentSpeed    = 0;
 
+        // error checking, no negatives.
+        ftg = window.localStorage.getItem( localFucks );
+        if ( ftg < 0 ) {
+            console.log( 'Fuck you, dude.' );
+            window.localStorage.setItem( localFucks, maxFucks );
+            ftg = maxFucks;
+            setScore( maxFucks );
+        }
+
+        // reset timer, clear results.
         clearInterval(timer);
         timer = setInterval( spin, 25 );
         spinButton.setAttribute( 'disabled', 'disabled' );
