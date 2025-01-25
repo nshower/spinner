@@ -5,6 +5,8 @@ addEventListener( 'DOMContentLoaded', (e) => {
     const game        = document.getElementById('game');
     const spinButton  = document.getElementById('button_spin');
     const resetButton = document.getElementById('button_reset');
+    const helpButton  = document.getElementById('button_help');
+    const helpClose   = document.getElementById('button_help_close');
     const pointer     = document.getElementById('spinner_pointer');
     const wheel       = document.getElementById('wheel');
     const result      = document.getElementById('result');
@@ -12,6 +14,7 @@ addEventListener( 'DOMContentLoaded', (e) => {
     const costText    = document.getElementById('cost_text');
     const surprise    = document.getElementById('surprise_box');
     const score       = document.getElementById('score');
+    const helpBox     = document.getElementById('help_box');
     const localFucks  = 'fucks';
     const maxFucks    = 50;
     let timer         = null;
@@ -32,6 +35,8 @@ addEventListener( 'DOMContentLoaded', (e) => {
     surprise.addEventListener( 'click', clearSurprise );
     resultBox.addEventListener( 'click', handleDismiss );
     resetButton.addEventListener( 'click', handleReset );
+    helpButton.addEventListener( 'click', toggleHelp );
+    helpClose.addEventListener( 'click', toggleHelp );
 
     // set game status.
     game.dataset.status = ftg > 0 ? 'playing' : 'over';
@@ -89,7 +94,6 @@ addEventListener( 'DOMContentLoaded', (e) => {
         pointer.style.transform = 'rotate(0deg)';
         pointer.dataset.rotation = 0;
         game.dataset.status = "playing";
-
     }
 
     /**
@@ -109,6 +113,15 @@ addEventListener( 'DOMContentLoaded', (e) => {
             scoreText = 'All out of fucks to give.';
         }
         score.textContent = scoreText;
+    }
+
+    /**
+     * Hide/show help text.
+     * 
+     * @param {event} e 
+     */
+    function toggleHelp(e) {
+        helpBox.classList.toggle('open');
     }
 
     /**
@@ -142,6 +155,7 @@ addEventListener( 'DOMContentLoaded', (e) => {
         timer = setInterval( spin, 25 );
         spinButton.setAttribute( 'disabled', 'disabled' );
         resultBox.classList.remove('show-results');
+        helpBox.classList.remove('open');
 
         /**
          * Spinning wheel, spinning round.
