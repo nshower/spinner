@@ -8,6 +8,10 @@
         <link rel="shortcut icon" type="image/png" href="favicon.png" />
     </head>
     <body>
+        <audio controls class="audio" id="audio">
+            <source src="thomas-benjamin-ive-no-more-fucks-to-give.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
         <main id="game">
             <h1 class="screen-reader-text">Fucking Spinner</h1>
             <div class="spinner">
@@ -32,8 +36,9 @@
                 <button id="button_reset">Again?</button>
             </div>
             <div class="score-box" id="score_box">
+                <button class="audio-controls button-plain" id="audio_controls" data-status="paused" title="Thosmas Benjamin - I've No More Fucks to Give."><span class="play">⏵</span><span class="pause">⏸</span></button>
                 <span class="score-text" id="score"></span>
-                <button id="button_help" class="button-plain">What the fuck is this?</button>
+                <button id="button_help" class="button-plain">What the fuck<span> is this</span>?</button>
             </div>
             <div class="result-box" id="result_box">
                 <div class="result-text" id="result"></div>
@@ -57,6 +62,10 @@
                 <p><a href="https://github.com/nshower">This fucking guy</a>.</p>
                 <h2>Fuck this.</h2>
                 <p>Agreed.</p>
+                <h2>Fucking music now?</h2>
+                <p>Fucking right, music. Credits for the most fucking perfect theme song go to
+                    <a href="https://www.youtube.com/@ThomasBenjaminWildEsqMusic" target="_blank">this guy</a>,
+                    who has absolutely no more fucks to give.</p>
             </div>
         </main>
     </body>

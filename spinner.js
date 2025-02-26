@@ -2,26 +2,31 @@
  * Spin the wheel, take a chance.
  */
 addEventListener( 'DOMContentLoaded', (e) => {
-    const game        = document.getElementById('game');
-    const spinButton  = document.getElementById('button_spin');
-    const resetButton = document.getElementById('button_reset');
-    const helpButton  = document.getElementById('button_help');
-    const helpClose   = document.getElementById('button_help_close');
-    const pointer     = document.getElementById('spinner_pointer');
-    const wheel       = document.getElementById('wheel');
-    const result      = document.getElementById('result');
-    const resultBox   = document.getElementById('result_box');
-    const costText    = document.getElementById('cost_text');
-    const surprise    = document.getElementById('surprise_box');
-    const score       = document.getElementById('score');
-    const helpBox     = document.getElementById('help_box');
-    const localFucks  = 'fucks';
-    const maxFucks    = 50;
-    let timer         = null;
-    let ftg           = window.localStorage.getItem( localFucks );
+    const game         = document.getElementById('game');
+    const spinButton   = document.getElementById('button_spin');
+    const resetButton  = document.getElementById('button_reset');
+    const helpButton   = document.getElementById('button_help');
+    const helpClose    = document.getElementById('button_help_close');
+    const pointer      = document.getElementById('spinner_pointer');
+    const wheel        = document.getElementById('wheel');
+    const result       = document.getElementById('result');
+    const resultBox    = document.getElementById('result_box');
+    const costText     = document.getElementById('cost_text');
+    const surprise     = document.getElementById('surprise_box');
+    const score        = document.getElementById('score');
+    const helpBox      = document.getElementById('help_box');
+    const audioControl = document.getElementById('audio_controls');
+    const audioPlayer  = document.getElementById('audio');
+    const localFucks   = 'fucks';
+    const localSound   = 'fucking_background_music';
+    const maxFucks     = 50;
+    let timer          = null;
+    let ftg            = window.localStorage.getItem( localFucks );
+    let ftgSound       = window.localStorage.getItem( localSound );
 
+    // score!
     if ( ! ftg ) {
-        window.localStorage.setItem( localFucks, maxFucks);
+        window.localStorage.setItem( localFucks, maxFucks );
     }
     if ( ftg < 0 ) {
         console.log( 'Fuck you, dude.' );
@@ -30,6 +35,14 @@ addEventListener( 'DOMContentLoaded', (e) => {
     ftg = window.localStorage.getItem( localFucks );
     setScore( ftg );
 
+    // sound!
+    if ( ! ftgSound ) {
+        window.localStorage.setItem( localSound, 'paused' );
+    }
+    if ( 'playing' === ftgSound ) {
+        audioControl.click();
+    }
+
     // events!
     spinButton.addEventListener( 'click', handleSpin );
     surprise.addEventListener( 'click', clearSurprise );
@@ -37,6 +50,23 @@ addEventListener( 'DOMContentLoaded', (e) => {
     resetButton.addEventListener( 'click', handleReset );
     helpButton.addEventListener( 'click', toggleHelp );
     helpClose.addEventListener( 'click', toggleHelp );
+    audioControl.addEventListener( 'click', toggleMusic );
+
+    /**
+     * Why not, let's have some fucking music.
+     */
+    function toggleMusic(e) {
+        if ( 'paused' === ftgSound ) {
+            window.localStorage.setItem( localSound, 'playing' );
+            audioControl.dataset.status = 'playing';
+            audioPlayer.play();
+        } else {
+            window.localStorage.setItem( localSound, 'paused' );
+            audioControl.dataset.status = 'paused';
+            audioPlayer.pause();
+        }
+        ftgSound = window.localStorage.getItem( localSound );
+    }
 
     // set game status.
     game.dataset.status = ftg > 0 ? 'playing' : 'over';
